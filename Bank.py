@@ -21,15 +21,12 @@ class Bank(ABC):
 
     @abstractmethod
     def sign_with_next_client(self, first_name, last_name):
-        client = Client(first_name, last_name, self.__gen_passcode, self.__get_client_id)
-        self.clients.append(client)
+        pass
 
     @abstractmethod
-    def __gen_passcode(self):
-        passcode = random.randint(1000, 9999)
-        return passcode
+    def _gen_passcode(self):
+        pass
 
-    def __get_client_id(cls):
-        current_id = Bank.NEXT_CLIENT_ID
-        cls.NEXT_CLIENT_ID += 1
-        return current_id
+    @abstractmethod
+    def _get_client_id(cls):
+        pass

@@ -1,11 +1,11 @@
 class Client:
-    def __init__(self, first_name, last_name, passcode, client_id):
+    def __init__(self, first_name, last_name):
         self.first_name = first_name
         self.last_name = last_name
-        self.__client_id = client_id
         self.__balance = 0
         self.__wrong_passcodes = 0
-        self.passcode = passcode
+        self.__passcode = None
+        self.__id = None
         self.bank = None
 
     @property
@@ -30,33 +30,22 @@ class Client:
         else:
             self.__last_name = value
 
-    @property
-    def passcode(self):
-        return self.__passcode
-
-    @passcode.setter
-    def passcode(self, value):
-        if value.strip() == "":
-            raise ValueError("Cant set empty code")
-        if len(value) != 4:
-            raise ValueError("Passcode has to be only four digits.")
-        if not value.islanum():
-            raise ValueError("Passcode contains only digits")
-        else:
-            self.__passcode = value
-
     def withdraw(self, amount, passcode):
-        if passcode != self.passcode:
+        if passcode != self.__passcode:
             return "Sorry. Wrong passcode"
+        if self.bank.amount_of_money < amount:
+            return f"Sorry. {self.bank} can't provide amount of {amount:.2f$}."
         if amount > self.__balance:
             return "Impossible transaction. Not enough money! Please contact bank Support."
         else:
             self.__balance -= amount
+            self.__balance -= amount
             return f"Successful withdraw of {amount:.2f}$. Current balance: {self.__balance:.2f}$."
 
     def deposit(self, amount, passcode):
-        if passcode != self.passcode:
+        if passcode != self.__passcode:
             return "Sorry. Wrong passcode."
+        self.__balance += amount
         self.bank.amount_of_money += amount
         return f"Successful deposit of {amount:.2f}"
 
@@ -77,3 +66,9 @@ class Client:
     def set_bank(self, bank):
         self.bank = bank
         return "Sign successful"
+
+    def set_id(self, id):
+        self.__id = id
+
+    def set_passcode(self, passcode):
+        self.__passcode = passcode
