@@ -5,24 +5,38 @@ import random
 
 class DSK(Bank):
     NEXT_CLIENT_ID = 1
+    MONEY = 1_000_000
 
-    def __init__(self, name, amount_of_start_money):
-        super().__init__(name, amount_of_start_money)
+    def __init__(self, name):
+        super().__init__(name)
         self.clients = []
-        self.id = Bank.get_next_id()
+        self.id = self._get_next_id()
 
     def sign_with_next_client(self, client):
         if isinstance(client, Client):
-            client.set_id(self._gen_passcode)
+            client.set_passcode(self._gen_passcode())
             client.set_id(self._get_client_id)
+            client.bank = self.__class__
             self.clients.append(client)
             return f"{client.first_name} {client.last_name} signed."
 
     def _gen_passcode(self):
         passcode = random.randint(1000, 9999)
-        return passcode
+        return str(passcode)
 
     def _get_client_id(self):
         current_id = DSK.NEXT_CLIENT_ID
         DSK.NEXT_CLIENT_ID += 1
+        return current_id
+
+    @classmethod
+    def deposit(cls, amount):
+        DSK.MONEY += amount
+
+    def withdraw(cls, amount):
+        DSK.MONEY -= amount
+
+    def _get_next_id(self):
+        current_id = DSK.NEXT_ID
+        DSK.NEXT_ID += 1
         return current_id

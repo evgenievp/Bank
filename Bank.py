@@ -8,19 +8,16 @@ class Bank(ABC):
     NEXT_ID = 1
     NEXT_CLIENT_ID = 1
 
-    def __init__(self, name, amount_of_start_money):
+    def __init__(self, name):
         self.name = name
-        self.__amount_of_money = amount_of_start_money
         self.clients = []
 
-    @classmethod
-    def get_next_id(cls):
-        current_id = Bank.NEXT_ID
-        cls.NEXT_ID += 1
-        return current_id
+    @abstractmethod
+    def _get_next_id(self):
+        pass
 
     @abstractmethod
-    def sign_with_next_client(self, first_name, last_name):
+    def sign_with_next_client(self, client):
         pass
 
     @abstractmethod
@@ -28,5 +25,5 @@ class Bank(ABC):
         pass
 
     @abstractmethod
-    def _get_client_id(cls):
+    def _get_client_id(self):
         pass

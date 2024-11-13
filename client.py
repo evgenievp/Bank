@@ -1,3 +1,6 @@
+from datetime import datetime
+
+
 class Client:
     def __init__(self, first_name, last_name):
         self.first_name = first_name
@@ -33,21 +36,18 @@ class Client:
     def withdraw(self, amount, passcode):
         if passcode != self.__passcode:
             return "Sorry. Wrong passcode"
-        if self.bank.amount_of_money < amount:
-            return f"Sorry. {self.bank} can't provide amount of {amount:.2f$}."
         if amount > self.__balance:
             return "Impossible transaction. Not enough money! Please contact bank Support."
         else:
             self.__balance -= amount
-            self.__balance -= amount
-            return f"Successful withdraw of {amount:.2f}$. Current balance: {self.__balance:.2f}$."
+            return f"Successful withdraw of {amount:.2f}$. Current balance: {self.__balance:.2f}$. Date: {datetime.now()}"
 
     def deposit(self, amount, passcode):
         if passcode != self.__passcode:
             return "Sorry. Wrong passcode."
         self.__balance += amount
-        self.bank.amount_of_money += amount
-        return f"Successful deposit of {amount:.2f}"
+        self.bank.deposit(amount)
+        return f"Successful deposit of {amount:.2f}$ on {datetime.now()}"
 
     def check_balance(self, passcode):
         if self.__passcode != passcode:
@@ -72,3 +72,6 @@ class Client:
 
     def set_passcode(self, passcode):
         self.__passcode = passcode
+
+    def get_passcode(self):
+        return self.__passcode
