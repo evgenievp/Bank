@@ -75,3 +75,9 @@ class Client:
 
     def get_passcode(self):
         return self.__passcode
+
+    def change_bank(self, new_bank):
+        self.bank = new_bank
+
+    def remove_bank_account(self):
+        self.bank = None

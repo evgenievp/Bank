@@ -9,6 +9,7 @@ class DSK(Bank):
 
     def __init__(self, name):
         super().__init__(name)
+        self.interest = 0.05
         self.clients = []
         self.id = self._get_next_id()
 
@@ -40,3 +41,14 @@ class DSK(Bank):
         current_id = DSK.NEXT_ID
         DSK.NEXT_ID += 1
         return current_id
+
+    def remove_client(self, client):
+        for client in self.clients:
+            if client == client.last_name:
+                client.remove_bank_account()
+                self.clients.remove(client)
+                return f"Sorry to see you go, {client.first_name} {client.last_name}"
+        return f"We haven't client with that last name in our database."
+
+    def __repr__(self):
+        return __class__.__name__

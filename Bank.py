@@ -1,7 +1,4 @@
 from abc import ABC, abstractmethod
-import random
-
-from client import Client
 
 
 class Bank(ABC):
@@ -27,3 +24,5 @@ class Bank(ABC):
     @abstractmethod
     def _get_client_id(self):
         pass
+
+
