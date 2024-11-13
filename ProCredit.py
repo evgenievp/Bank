@@ -3,7 +3,7 @@ from client import Client
 import random
 
 
-class DSK(Bank):
+class ProCredit(Bank):
     NEXT_CLIENT_ID = 1
     MONEY = 1_000_000
 
@@ -26,25 +26,26 @@ class DSK(Bank):
         return str(passcode)
 
     def _get_client_id(self):
-        current_id = DSK.NEXT_CLIENT_ID
-        DSK.NEXT_CLIENT_ID += 1
+        current_id = ProCredit.NEXT_CLIENT_ID
+        ProCredit.NEXT_CLIENT_ID += 1
         return current_id
 
     @classmethod
     def deposit(cls, amount):
-        DSK.MONEY += amount
+        ProCredit.MONEY += amount
 
     def withdraw(cls, amount):
-        DSK.MONEY -= amount
+        ProCredit.MONEY -= amount
 
     def _get_next_id(self):
-        current_id = DSK.NEXT_ID
-        DSK.NEXT_ID += 1
+        current_id = ProCredit.NEXT_ID
+        ProCredit.NEXT_ID += 1
         return current_id
 
-    def remove_client(self):
+    def remove_client(self, client):
         for client in self.clients:
-            if client.bank is None:
+            if client == client.last_name:
+                client.remove_bank_account()
                 self.clients.remove(client)
                 return f"Sorry to see you go, {client.first_name} {client.last_name}"
         return f"We haven't client with that last name in our database."

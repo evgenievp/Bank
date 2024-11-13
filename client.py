@@ -6,6 +6,7 @@ class Client:
         self.first_name = first_name
         self.last_name = last_name
         self.__balance = 0
+        self.money = 0
         self.__wrong_passcodes = 0
         self.__passcode = None
         self.__id = None
@@ -53,8 +54,8 @@ class Client:
         if self.__passcode != passcode:
             if not self.__wrong_checks():
                 return "Sorry. Wrong passcode."
-            else:
-                return f"Current balance: {self.__balance:.2f$}"
+        else:
+            return f"Current balance: {self.__balance:.2f}$"
 
     def __wrong_checks(self):
         self.__wrong_passcodes -= 1
@@ -77,7 +78,15 @@ class Client:
         return self.__passcode
 
     def change_bank(self, new_bank):
-        self.bank = new_bank
+        bank = self.bank
+        self.withdraw_all()
+        bank = new_bank
+        bank.deposit(self.money)
 
     def remove_bank_account(self):
         self.bank = None
+
+    def withdraw_all(self):
+        self.money = self.__balance
+        self.withdraw(self.__balance, self.get_passcode())
+        self.__balance = 0
